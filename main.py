@@ -36,7 +36,7 @@ def get_train_params_by_name(name):
 
 
 if __name__ == '__main__':
-    '''
+    """
     parser = argparse.ArgumentParser()
     parser.add_argument(
         '--train', action='store_true',
@@ -105,7 +105,7 @@ if __name__ == '__main__':
     parser.set_defaults(renew_logs=True)
 
     args = parser.parse_args()
-'''
+"""
     
     #train_params = get_train_params_by_name(args.dataset)
 
