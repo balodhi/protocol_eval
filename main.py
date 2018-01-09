@@ -7,7 +7,7 @@ from protocol import *
 hisat_params = {
     'name': 'HISAT',
     'enabled': True,
-    'build_index': True,
+    'build_index': True, 
     'run_aligner': True,
     'sort': True,
 }
@@ -30,11 +30,12 @@ def get_train_params_by_name(name):
 
 
 if __name__ == '__main__':
-    '''
+    
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        '--train', action='store_true',
-        help='Train the model')
+        '--input', type=str,
+        help='input the file name')
+    '''
     parser.add_argument(
         '--test', action='store_true',
         help='Test model for required dataset if pretrained model exists.'
@@ -97,16 +98,18 @@ if __name__ == '__main__':
         '--not-renew-logs', dest='renew_logs', action='store_false',
         help='Do not erase previous logs for model if exists.')
     parser.set_defaults(renew_logs=True)
+    '''
 
     args = parser.parse_args()
-'''
+    model_params = vars(args)
+
     
     #train_params = get_train_params_by_name(args.dataset)
     parameters=[]
     parameters.extend([hisat_params,hisat2_params])
 
     
-    objProtocol = protocol(parameters)
+    objProtocol = protocol(parameters,**model_params)
    
     objProtocol.run_protocol()
     sam2bam("abc","def")

@@ -4,11 +4,12 @@ from utils import runCommand, deleteFile
 
 class protocol:
 	"""docstring for protocol"""
-	def __init__(self, parameters):
-		super(protocol, self).__init__()
+	def __init__(self, parameters,input):
+		#super(protocol, self).__init__()
 		#self.arg = arg
 		self.parameters = parameters
 		self.alignersList = []
+		self.inputfile=input
 		self.getAlignerList(self.parameters)
 	
 	def getAlignerList(self,parameters):
@@ -22,45 +23,47 @@ class protocol:
 		#	os.mkdir("indexes")
 		#os.chdir("indexes")
 
-		for genome in ["22_20_-21M","22","genome"]:
-			for aligner in self.alignersList:
-				
-				if (genome == "genome"):
-					dir = aligner
-				else:
-					dir = aligner + "_" + genome
-				#if os.path.exists(dir):
-				#	continue
-				#os.mkdir(dir)
-				#os.chdir(dir)
-				if aligner.upper()=="HISAT":
-					objhisat=hisat(inputfile="abc",workingpath="/data/")
-					if(self.parameters[0]['build_index']):
-						runCommand(objhisat.build_command)
-						deleteFile(os.path.join("/workingpath/", "abc"))
-					#print("if 1",aligner.upper())
+		#for genome in self.inputfile:
+		
+		for aligner in self.alignersList:
+			
+		
+			#if os.path.exists(dir):
+			#	continue
+			#os.mkdir(dir)
+			#os.chdir(dir)
+			if aligner.upper()=="HISAT":
+				objhisat=hisat(inputfile=self.inputfile,workingpath="aligners/HISAT")
+				if(self.parameters[0]['build_index']):
+					runCommand(objhisat.build_command) #go to the specific directory and run the build command
 					
+					print("Building index file completed.")
+					deleteFile(os.path.join("/workingpath/", "abc")) #delete the inputfile to save the space
+				#print("if 1",aligner.upper())
+				
+				
+				#print(cmd)
+			
+			elif aligner.upper()=="HISAT2":
+				objhisat2=hisat2(inputfile=self.inputfile,workingpath="aligners/HISAT2")
+				if(self.parameters[1]['build_index']):
+					runCommand(objhisat2.build_command)
 					
-					#print(cmd)
-				
-				elif aligner.upper()=="HISAT2":
-					objhisat2=hisat2(inputfile="def",workingpath="/data/")
-					if(self.parameters[1]['build_index']):
-						runCommand(objhisat2.build_command)
-						deleteFile(os.path.join("/workingpath/", "abc"))
-				
-				elif aligner=="BOWTIE":
-					cmd = "bowtie-build ../data/%s %s" %(genome,genome)
-				
-				elif aligner=="STAR":
-					cmd = "../../aligners/bin/STAR --runMode genomeGenerate --genomeDir . --genomeFastaFiles ../../data/%s.fa" % (genome)
-				
-				elif aligner=="GSNAP":
-					cmd = "../../aligners/bin/gmap_build -B ../../aligners/bin -D . -d %s ../../data/%s.fa" % (genome, genome)
-				else:
-					print("Aligner:",aligner," does not exist.")
-					assert False
-					
+					print("Building index file completed.")
+					deleteFile(os.path.join("/workingpath/", "abc")) #delete the inputfile to save the space
+			
+			elif aligner=="BOWTIE":
+				cmd = "bowtie-build ../data/%s %s" %(self.inputfile,self.inputfile)
+			
+			elif aligner=="STAR":
+				cmd = "../../aligners/bin/STAR --runMode genomeGenerate --genomeDir . --genomeFastaFiles ../../data/%s.fa" % (self.inputfile)
+			
+			elif aligner=="GSNAP":
+				cmd = "../../aligners/bin/gmap_build -B ../../aligners/bin -D . -d %s ../../data/%s.fa" % (self.inputfile, self.inputfile)
+			else:
+				print("Aligner:",aligner," does not exist.")
+				assert False
+
 	def print_data(self):
 		for item in self.alignerList:
 			print("data",item)

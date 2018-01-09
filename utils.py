@@ -9,7 +9,7 @@ def sam2bam(inputfile,outputfile,numThreads=8):
 	return 
 def runCommand(command):
 	print(command)
-	#sb.call(command)
+	sb.call(command)
 def deleteFile(filename):
 	print("delete",filename)
 	#os.remove(filename)
