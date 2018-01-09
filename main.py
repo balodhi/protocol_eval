@@ -3,28 +3,22 @@ import argparse
 from utils import sam2bam
 from protocol import *
 
+
 hisat_params = {
-    'batch_size': 64,
-    'n_epochs': 300,
-    'initial_learning_rate': 0.1,
-    'reduce_lr_epoch_1': 150,  # epochs * 0.5
-    'reduce_lr_epoch_2': 225,  # epochs * 0.75
-    'validation_set': True,
-    'validation_split': None,  # None or float
-    'shuffle': 'every_epoch',  # None, once_prior_train, every_epoch
-    'normalization': 'by_chanels',  # None, divide_256, divide_255, by_chanels
+    'name': 'HISAT',
+    'enabled': True,
+    'build_index': True,
+    'run_aligner': True,
+    'sort': True,
 }
 
+
 hisat2_params = {
-    'batch_size': 64,
-    'n_epochs': 40,
-    'initial_learning_rate': 0.1,
-    'reduce_lr_epoch_1': 20,
-    'reduce_lr_epoch_2': 30,
-    'validation_set': True,
-    'validation_split': None,  # you may set it 6000 as in the paper
-    'shuffle': True,  # shuffle dataset every epoch or not
-    'normalization': 'divide_255',
+    'name': 'HISAT2',
+    'enabled': True,
+    'build_index': True,
+    'run_aligner': True,
+    'sort': True,
 }
 
 
@@ -36,7 +30,7 @@ def get_train_params_by_name(name):
 
 
 if __name__ == '__main__':
-    """
+    '''
     parser = argparse.ArgumentParser()
     parser.add_argument(
         '--train', action='store_true',
@@ -105,12 +99,14 @@ if __name__ == '__main__':
     parser.set_defaults(renew_logs=True)
 
     args = parser.parse_args()
-"""
+'''
     
     #train_params = get_train_params_by_name(args.dataset)
+    parameters=[]
+    parameters.extend([hisat_params,hisat2_params])
 
     
-    objProtocol = protocol(alignerList=['hisat','hisat2'])
+    objProtocol = protocol(parameters)
    
-    objProtocol.build_indexes()
+    objProtocol.run_protocol()
     sam2bam("abc","def")
