@@ -7,7 +7,7 @@ from protocol import *
 hisat_params = {
     'name': 'HISAT',
     'enabled': True,
-    'build_index': True, 
+    'build_index': False, 
     'run_aligner': True,
     'sort': True,
 }
