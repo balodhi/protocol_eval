@@ -7,3 +7,9 @@ def sam2bam(inputfile,outputfile,numThreads=8):
 	
 	sb.call(["samtools", "-@",str(numThreads),"sort", "-o", outputfile,inputfile])
 	return 
+def runCommand(command):
+	print(command)
+	#sb.call(command)
+def deleteFile(filename):
+	print("delete",filename)
+	#os.remove(filename)
